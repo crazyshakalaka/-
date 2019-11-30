@@ -106,12 +106,93 @@ router.get("/send_message",async(req,res)=>{
             from: "messages",
             localField: "express_number",
             foreignField: "express_id",
-            as: "xue"
+            as: "msg"
         }
-    }
+    },
+     {
+        $lookup:
+        {
+            from: "storekeepers",
+            localField: "storekeeper_username",
+            foreignField: "storekeeper_name",
+            as: "updatedBy"
+        }
+    },
+    {
+        $lookup:
+        {
+            from: "customers",
+            localField: "customer_username",
+            foreignField: "username",
+            as: "relativeCustomer"
+        }
+    },
+    {
+        $lookup:
+        {
+            from: "customerservices",
+            localField: "customerservice_username",
+            foreignField: "username",
+            as: "relativeStaffOfCustomer"
+        }
+    },
+    {
+        $match: { "msg": { $ne: [] }, "updatedBy": { $ne: [] },"relativeCustomer": { $ne: [] },"relativeStaffOfCustomer": { $ne: [] }}
+     },
+    //  {
+    //  $project:
+    //     {
+    //         _id: 0,
+    //         express_number: 1,
+    //         express_company : 1,
+    //         accept_time : 1,
+    //         status : 1,
+    //         storekeeper_username : 0,
+    //         customer_username : 0,
+    //         customerservice_username : 0,
+    //         updatedAt : 1,
+    //         // "signInstitutionsData.unit_name": 1,
+    //         // "signInstitutionsData.institutions": 1
+    //     }
+    // }
     ],(err,data)=>{
         res.send(JSON.stringify(data));
     }) 
+})
+
+router.get("/time_express",async(req,res)=>{
+    let stime = {};
+    if((req.body.time1!=null&&req.body.time1!=undefined)&&(req.body.time1==null||req.body.time1==undefined)){ 
+        stime = {"accept_time":{"$gte": mongoose.ISODate(req.body.time1)}}
+    }else 
+    if((req.body.time1==null||req.body.time1==undefined)&&(req.body.time1!=null&&req.body.time1!=undefined)){ 
+        stime = {"accept_time":{"$lte":mongoose.ISODate(req.body.time2)}}
+    }else 
+    if((req.body.time1!=null&&req.body.time1!=undefined)&&(req.body.time1!=null&&req.body.time1!=undefined)){ 
+        stime = {"accept_time":{"$gte":mongoose.ISODate(req.body.time1),"$lte":mongoose.ISODate(req.body.time2)}}
+    }  
+    if(stime!={}){
+        const TimeDatas = await Parcel.find(stime);
+        if(TimeDatas.length>=0){
+            return res.send({
+                code: 0,
+                msg : "查找成功",
+                TimeDatas
+            });
+            
+        }else{
+            return res.json({
+                code: 1000,
+                msg : "查找失败"
+            })
+        }
+    }else{
+        return res.json({
+            code: 1001,
+            msg : "请输入查询参数！"
+        })
+    }
+    
 })
 
 module.exports = router;

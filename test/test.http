@@ -79,3 +79,12 @@ get {{url2}}/all_Storekeepers
 //发送消息
 ###
 get {{url}}/send_message
+
+###
+get {{url}}/time_express
+{{json}}
+
+{
+    "time1":"2017-11-07",
+    "time2":"2017-12-08"
+}
