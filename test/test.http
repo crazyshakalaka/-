@@ -1,5 +1,6 @@
 @url = http://localhost:3001/api/v1
 @json = Content-Type: application/json
+@url2 = http://localhost:3001/api/v2
 ###
 get {{url}}/all_express
 
@@ -11,9 +12,70 @@ post {{url}}/Warehousing
 {{json}}
 
 {
-    "express_number" : 12234568,
+    "express_number" : 1234,
     "express_company" : "顺丰",
-    "storekeeper_id" : "122334",
-    "customer_name" : "张三",
+    "storekeeper_username" : "薛",
+    "customer_username" : "奎",
+    "customerservice_username" : "浩",
     "status" : 0
 }
+
+###
+post {{url}}/creat_messages
+{{json}}
+
+{
+    "express_id" : 1234,
+    "customerservice_username" : "浩",
+    "messages_status" : 0 
+}
+
+###
+get {{url}}/all_messages
+
+###
+post {{url2}}/customer_register
+{{json}}
+
+{
+    "username" : "奎",
+    "name" : "王二",
+    "password" : "123456"
+}
+
+###
+get {{url2}}/all_customer
+
+
+###
+post {{url2}}/customerservice_register
+{{json}}
+
+{
+    "username" : "浩",
+    "name" : "伊丽莎白",
+    "password" : "123456"
+}
+
+###
+get {{url2}}/all_customerservices
+
+
+
+//注册仓库操作员
+###
+post {{url2}}/storekeeper_register
+{{json}}
+
+{
+    "storekeeper_name" : "薛",
+    "name" : "伊丽莎白",
+    "password" : "123456"
+}
+
+###
+get {{url2}}/all_Storekeepers
+
+//发送消息
+###
+get {{url}}/send_message
