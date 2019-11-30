@@ -1,0 +1,19 @@
+@url = http://localhost:3001/api/v1
+@json = Content-Type: application/json
+###
+get {{url}}/all_express
+
+###
+get {{url}}/all_express/count
+
+###
+post {{url}}/Warehousing
+{{json}}
+
+{
+    "express_number" : 12234568,
+    "express_company" : "顺丰",
+    "storekeeper_id" : "122334",
+    "customer_name" : "张三",
+    "status" : 0
+}
