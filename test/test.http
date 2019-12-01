@@ -68,7 +68,7 @@ post {{url2}}/storekeeper_register
 {{json}}
 
 {
-    "storekeeper_name" : "薛",
+    "storekeeper_name" : "1",
     "name" : "伊丽莎白",
     "password" : "123456"
 }
@@ -85,6 +85,22 @@ get {{url}}/time_express
 {{json}}
 
 {
-    "time1":"2017-11-07",
-    "time2":"2017-12-08"
+    "time1": "2019-11-29 00:00:00",
+    "time2": ""
+}
+
+###
+get {{url}}/express_number
+{{json}}
+
+{
+    "express_number" : 12345
+}
+
+###
+get {{url}}/read_message
+{{json}}
+
+{
+    "_id" : "5de25d4a3250313775c785c6"
 }
