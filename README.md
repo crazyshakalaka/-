@@ -15,7 +15,7 @@ npm install
 
 nodemon app.js //没有安装nodemon就直接node app.js
 
-//前提是必须mongodb数据库
+//前提是必须安装mongodb数据库
 
 ```
 
